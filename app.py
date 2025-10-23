@@ -1,7 +1,9 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
+from flask_cors import CORS
 import sqlite3
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
+CORS(app)  # Habilitar CORS para permitir peticiones desde el frontend
 
 DB_PATH = 'productos.db'
 
@@ -141,6 +143,11 @@ def delete_producto(producto_id):
         return jsonify({'success': True, 'message': 'Producto eliminado correctamente'})
     except Exception as e:
         return jsonify({'success': False, 'error': str(e)}), 500
+
+# Ruta para servir la interfaz gráfica
+@app.route('/')
+def index():
+    return send_from_directory('static', 'index.html')
 
 if __name__ == '__main__':
     app.run(debug=True, port=4000)

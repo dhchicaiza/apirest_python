@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API REST - Gestor de Productos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🛒 Gestor de Productos - API REST</h1>
+            <p class="subtitle">Interfaz gráfica para probar la API de productos</p>
+        </header>
+
+        <!-- Sección de estadísticas -->
+        <div class="stats-container">
+            <div class="stat-card">
+                <div class="stat-number" id="totalProductos">0</div>
+                <div class="stat-label">Total Productos</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="valorTotal">$0.00</div>
+                <div class="stat-label">Valor Total</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="stockTotal">0</div>
+                <div class="stat-label">Stock Total</div>
+            </div>
+        </div>
+
+        <!-- Formulario para crear/actualizar producto -->
+        <div class="form-container">
+            <h2 id="formTitle">➕ Crear Nuevo Producto</h2>
+            <form id="productoForm">
+                <input type="hidden" id="productoId">
+
+                <div class="form-group">
+                    <label for="nombre">Nombre del Producto *</label>
+                    <input type="text" id="nombre" required placeholder="Ej: Laptop Dell">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="precio">Precio *</label>
+                        <input type="number" id="precio" step="0.01" required placeholder="0.00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="stock">Stock *</label>
+                        <input type="number" id="stock" required placeholder="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="descripcion">Descripción</label>
+                    <textarea id="descripcion" rows="3" placeholder="Descripción del producto (opcional)"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span id="submitText">Crear Producto</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="cancelBtn" onclick="cancelarEdicion()" style="display: none;">
+                        Cancelar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Tabla de productos -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2>📦 Lista de Productos</h2>
+                <button class="btn btn-refresh" onclick="cargarProductos()">
+                    🔄 Actualizar
+                </button>
+            </div>
+
+            <div id="loadingSpinner" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Cargando productos...</p>
+            </div>
+
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">📭</div>
+                <h3>No hay productos</h3>
+                <p>Comienza agregando tu primer producto usando el formulario de arriba</p>
+            </div>
+
+            <table id="productosTable" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Descripción</th>
+                        <th>Fecha Creación</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="productosBody">
+                    <!-- Los productos se cargarán aquí -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Notificaciones -->
+        <div id="notification" class="notification"></div>
+    </div>
+
+    <footer>
+        <p>API REST con Flask y SQLite | <span id="apiStatus">🔴 Desconectado</span></p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
